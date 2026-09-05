@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { formatAge, todayInNorway } from '$lib/age';
+	import { formatLiveAge, nowInNorway } from '$lib/age';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
-	let currentDate = $state<string | null>(null);
-	const age = $derived(formatAge(currentDate ?? data.today));
+	let currentTime = $state<string | null>(null);
+	const age = $derived(formatLiveAge(currentTime ?? data.now));
 
 	function refresh() {
-		currentDate = todayInNorway();
+		currentTime = nowInNorway();
 	}
 
 	onMount(() => {
@@ -27,7 +27,12 @@
 <svelte:document onvisibilitychange={refresh} />
 
 <main>
-	<h1 aria-live="polite" aria-atomic="true">{age}</h1>
+	<div aria-live="polite" aria-atomic="true">
+		<h1><span>Aud er</span>{age.age}</h1>
+		{#if age.time}
+			<p>{age.time}</p>
+		{/if}
+	</div>
 </main>
 
 <style>
@@ -53,5 +58,20 @@
 		letter-spacing: -0.035em;
 		text-align: center;
 		text-wrap: balance;
+	}
+	h1 span {
+		display: block;
+		margin-bottom: 1rem;
+		font-size: clamp(1.25rem, 3vw, 2rem);
+		letter-spacing: normal;
+		color: #607064;
+	}
+	p {
+		margin: 1rem 0 0;
+		font-family: Georgia, 'Times New Roman', serif;
+		font-size: clamp(1.25rem, 3vw, 2rem);
+		line-height: 1.4;
+		text-align: center;
+		color: #607064;
 	}
 </style>
