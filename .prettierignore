@@ -7,6 +7,3 @@ bun.lockb
 
 # Miscellaneous
 /static/
-
-# Vendored AI-tool docs (contains intentionally unparsable diff-style snippets)
-.cursor/skills/svelte-core-bestpractices/references/inspect.md
