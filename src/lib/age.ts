@@ -10,12 +10,20 @@ export function nowInNorway(): string {
 	return Temporal.Now.zonedDateTimeISO('Europe/Oslo').toString();
 }
 
-export function formatLiveAge(timestamp: string): { age: string; time: string } {
+export type AgeUnit = 'months' | 'weeks';
+
+export function formatLiveAge(
+	timestamp: string,
+	unit: AgeUnit = 'months'
+): { age: string; time: string } {
 	const now = Temporal.ZonedDateTime.from(timestamp).withTimeZone('Europe/Oslo');
 	if (Temporal.ZonedDateTime.compare(now, birthTime) < 0) {
 		return { age: 'Ikke født ennå', time: '' };
 	}
-	const duration = birthTime.until(now, { largestUnit: 'years', smallestUnit: 'minutes' });
+	const duration = birthTime.until(now, {
+		largestUnit: unit === 'weeks' ? 'weeks' : 'years',
+		smallestUnit: 'minutes'
+	});
 	const { hours, minutes } = duration;
 	return {
 		age: formatCalendarAge(duration),
@@ -23,11 +31,11 @@ export function formatLiveAge(timestamp: string): { age: string; time: string } 
 	};
 }
 
-function formatCalendarAge({ years, months, days }: Temporal.Duration): string {
+function formatCalendarAge({ years, months, weeks, days }: Temporal.Duration): string {
 	const parts = [
 		[years, 'år', 'år'],
 		[months, 'måned', 'måneder'],
-		[Math.floor(days / 7), 'uke', 'uker'],
+		[weeks + Math.floor(days / 7), 'uke', 'uker'],
 		[days % 7, 'dag', 'dager']
 	] as const;
 	const labels = parts

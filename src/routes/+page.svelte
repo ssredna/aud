@@ -1,11 +1,16 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { formatLiveAge, nowInNorway } from '#lib/age.js';
+	import { formatLiveAge, nowInNorway, type AgeUnit } from '#lib/age.js';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
 	let currentTime = $state<string | null>(null);
-	const age = $derived(formatLiveAge(currentTime ?? data.now));
+	let unit = $state<AgeUnit>('months');
+	const age = $derived(formatLiveAge(currentTime ?? data.now, unit));
+
+	function toggleUnit() {
+		unit = unit === 'months' ? 'weeks' : 'months';
+	}
 
 	function refresh() {
 		currentTime = nowInNorway();
@@ -28,7 +33,14 @@
 
 <main>
 	<div aria-live="polite" aria-atomic="true">
-		<h1><span>Aud er</span>{age.age}</h1>
+		<h1>
+			<span>Aud er</span>
+			<button
+				type="button"
+				title={unit === 'months' ? 'Vis i uker' : 'Vis i måneder'}
+				onclick={toggleUnit}>{age.age}</button
+			>
+		</h1>
 		{#if age.time}
 			<p>{age.time}</p>
 		{/if}
@@ -65,6 +77,23 @@
 		font-size: clamp(1.25rem, 3vw, 2rem);
 		letter-spacing: normal;
 		color: #607064;
+	}
+	h1 button {
+		padding: 0;
+		border: 0;
+		background: none;
+		color: inherit;
+		font: inherit;
+		letter-spacing: inherit;
+		text-align: inherit;
+		text-wrap: inherit;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+	h1 button:focus-visible {
+		outline: 2px solid currentColor;
+		outline-offset: 0.15em;
+		border-radius: 0.1em;
 	}
 	p {
 		margin: 1rem 0 0;
