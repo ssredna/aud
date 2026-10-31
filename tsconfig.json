@@ -4,15 +4,8 @@
 	"exclude": ["src/service-worker"],
 	"compilerOptions": {
 		"rewriteRelativeImportExtensions": true,
-		"allowJs": true,
-		"checkJs": true,
-		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
-		"resolveJsonModule": true,
-		"skipLibCheck": true,
 		"sourceMap": true,
-		"strict": true,
-		"moduleResolution": "bundler"
+		"strict": true
 	}
 	// `#lib` is resolved through the `imports` field in package.json.
 	// Other path aliases are handled by https://svelte.dev/docs/kit/configuration#alias

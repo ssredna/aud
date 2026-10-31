@@ -23,12 +23,6 @@ export function formatLiveAge(timestamp: string): { age: string; time: string } 
 	};
 }
 
-export function formatAge(date: string): string {
-	const today = Temporal.PlainDate.from(date);
-	if (Temporal.PlainDate.compare(today, birthDate) < 0) return 'Ikke født ennå';
-	return formatCalendarAge(birthDate.until(today, { largestUnit: 'years' }));
-}
-
 function formatCalendarAge({ years, months, days }: Temporal.Duration): string {
 	const parts = [
 		[years, 'år', 'år'],
