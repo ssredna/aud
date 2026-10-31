@@ -1,42 +1,21 @@
-# sv
+# aud
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A small SvelteKit site that shows Aud's age, live and in Norwegian: years, months, weeks and days, plus hours and minutes since 19 August 2026 at 03:53 (Europe/Oslo). The age logic lives in `src/lib/age.ts` and uses the Temporal polyfill.
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```sh
-# create a new project
-npx sv create aud
-```
-
-To recreate this project with the same configuration:
-
-```sh
-# recreate this project
-npx sv@0.17.0 create --template minimal --types ts --add prettier eslint vitest="usages:unit,component" sveltekit-adapter="adapter:vercel" ai-tools="ide:opencode,cursor,claude-code+delivery:plugin+tools:mcp,svelte-code-writer,svelte-core-bestpractices,svelte-file-editor+mcpSetup:remote" --install npm aud
-```
+Deployed on Vercel via `@sveltejs/adapter-vercel`.
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
 ```sh
+npm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
-
-To create a production version of your app:
+## Checks
 
 ```sh
-npm run build
+npm run check   # svelte-check / TypeScript
+npm run lint    # prettier + eslint
+npm test        # vitest
+npm run build   # production build
 ```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
