@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { formatLiveAge, nowInNorway } from '$lib/age';
+	import { formatLiveAge, nowInNorway } from '#lib/age.js';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
